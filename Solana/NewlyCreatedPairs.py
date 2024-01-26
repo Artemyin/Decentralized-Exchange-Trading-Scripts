@@ -127,6 +127,10 @@ def get_tokens(signature: Signature, RaydiumLPV4: Pubkey) -> None:
         raw_transactions.write(transaction.to_json())        
         raw_transactions.write("\n ########## \n")
     # End logging
+    if not transaction.value:
+        print("No data, empty result")
+        logging.error("empty result %s", transaction)
+        return None
     instructions = get_instructions(transaction)
     filtred_instuctions = instructions_with_program_id(instructions, RaydiumLPV4)
     logging.info(filtred_instuctions)
@@ -165,7 +169,8 @@ def get_tokens_info(
     Token1 = accounts[9]
     # Start logging
     logging.info("find LP !!!")
-    logging.info(f"\n Token0: {Token0}, \n Token1: {Token1}, \n Pair: {Pair}")
+    logging.info(f"\n Token0: {Token0}, \n Token1: {Token1}, \n Pair: {Pair}", Token0, Token1, Pair)
+    logging.info("\n Token0: %s, \n Token1: %s, \n Pair: %s", Token0, Token1, Pair)
     # End logging
     return (Token0, Token1, Pair)
 
